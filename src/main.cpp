@@ -1,6 +1,8 @@
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <iostream>
+#include <ctime> //for deltatime calc 
+#include <sstream>
 
 void drawPixel(unsigned char* data, unsigned int i, unsigned char r, unsigned char g, unsigned char b ){
     data[i * 3 + 0] = r;
@@ -34,6 +36,10 @@ void drawQuad(unsigned char* data, unsigned int x, unsigned int y, unsigned int 
     }
 }
 
+void update(int& xPos, int& yPos, const unsigned int& width, const unsigned int& height){
+
+}
+
 int main(void)
 {
     GLFWwindow* window;
@@ -61,21 +67,25 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    unsigned int pixelsize = 4;
+    unsigned int pixelsize = 8;
+    //update(data, width, height);
+    for(int j = 0; j < height/pixelsize; j++){
+        for(int i = 0; i < width/pixelsize; i++){
+            drawQuad(data, i*pixelsize, j*pixelsize, pixelsize, pixelsize);   
+        } 
+    }
+
+    int xPos = 0, yPos = 0;
+    
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+        const clock_t begin_time = clock();
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
-        
-        update(data, width, height);
-        
-        for(int j = 0; j < height/pixelsize; j++){
-            for(int i = 0; i < width/pixelsize; i++){
-                drawQuad(data, i*pixelsize, j*pixelsize, pixelsize, pixelsize);   
-            } 
-        }
+
+        drawQuad(data, xPos, yPos, 30, 80);
         glDrawPixels(width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
         
         /* Swap front and back buffers */
@@ -83,6 +93,11 @@ int main(void)
 
         /* Poll for and process events */
         glfwPollEvents();
+        
+        std::stringstream ss; 
+        int fps = (1/(float( clock () - begin_time ) /  CLOCKS_PER_SEC));
+        ss << "PixelGL \t" << fps << " fps";
+        glfwSetWindowTitle(window, ss.str().c_str());
     }
 
     glfwTerminate();
