@@ -40,6 +40,38 @@ void update(int& xPos, int& yPos, const unsigned int& width, const unsigned int&
 
 }
 
+void moveUp(){
+    std::cout << "UP" << std::endl;
+}
+
+void moveDown(){
+    std::cout << "DOWN" << std::endl;
+}
+
+void moveLeft(){
+    std::cout << "LEFT" << std::endl;
+}
+
+void moveRight(){
+    std::cout << "RIGHT" << std::endl;
+}
+
+
+void processInput(GLFWwindow *window)
+{
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+    
+    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        moveUp();
+    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        moveLeft();
+    if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        moveDown();
+    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        moveRight();
+}
+
 int main(void)
 {
     GLFWwindow* window;
@@ -81,6 +113,8 @@ int main(void)
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+        processInput(window);
+
         const clock_t begin_time = clock();
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
