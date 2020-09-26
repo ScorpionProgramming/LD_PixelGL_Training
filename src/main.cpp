@@ -16,14 +16,6 @@ void drawPixelWithRandomColor(unsigned char* data, unsigned int i){
     data[i * 3 + 2] = (char)(rand() % 256);
 }
 
-
-void update(unsigned char* data, unsigned int& width, unsigned int& height){
-    unsigned int i;
-    for(i = 0; i < width * height; i++){
-        drawPixelWithRandomColor(data, i);
-    }
-}
-
 void drawQuad(unsigned char* data, unsigned int x, unsigned int y, unsigned int width, unsigned height){
     unsigned char r = (char)(rand() % 256);
     unsigned char g = (char)(rand() % 256);
@@ -34,10 +26,6 @@ void drawQuad(unsigned char* data, unsigned int x, unsigned int y, unsigned int 
             drawPixel(data, pos, r, g, b);
         }
     }
-}
-
-void update(int& xPos, int& yPos, const unsigned int& width, const unsigned int& height){
-
 }
 
 void moveUp(){
@@ -61,7 +49,6 @@ void processInput(GLFWwindow *window)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-    
     if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         moveUp();
     if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
