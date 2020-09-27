@@ -1,60 +1,24 @@
+
+#ifndef PLAYER
+#define PLAYER
+#include "../Math/Math.h"
+
 class Player
 {
 private:
-    float m_pos_X;
-    float m_pos_y;
-    float m_look;
+    Vector2f m_pos;
+    Vector2f m_dir;
 public:
     Player();
-    Player(float posX, float posY, unsigned int look);
+    Player(Vector2f& pos, Vector2f& dir);
 
-    float getPosX() const;
-    float getPosY() const;
-    float getLook() const;
-    void setPosX(float& x);
-    void setPosY(float& y);
-    void setLook(float& look);
+    Vector2f getPos() const;
+    Vector2f getDir() const;
+
+    void setPos(Vector2f& pos);
+    void setDir(Vector2f& dir);
 
     ~Player();
 };
 
-Player::Player()
-{
-    this->m_pos_X = 0.0f;
-    this->m_pos_y = 0.0f;
-    this->m_look  = 0.0f;
-}
-
-Player::Player(float posX, float posY, unsigned int look){
-    this->m_pos_X = posX;
-    this->m_pos_y = posY;
-    this->m_look  = look;
-}
-
-float Player::getPosX() const{
-    return this->m_pos_X;
-}
-
-float Player::getPosY() const{
-    return this->m_pos_y;
-}
-
-float Player::getLook() const{
-    return this->m_look;
-}
-
-void Player::setPosX(float& x){
-    this->m_pos_X = x;
-}
-
-void Player::setPosY(float& y){
-    this->m_pos_y = y;
-}
-
-void Player::setLook(float& look){
-    this->m_look = look;
-}
-
-Player::~Player(){
-
-}
+#endif
