@@ -32,12 +32,20 @@ void drawQuad(unsigned char* data, unsigned int x, unsigned int y, unsigned int 
     }
 }
 
+float delta = 0.001f;
+const float walkspeed = 2.0f;
+
+//Create Player on Position x y
+Player player = Player(new Vector2f(22.0f, 12.0f), new Vector2f(-1.0f, 0.0f));
+
 void moveUp(){
-    std::cout << "UP" << std::endl;
+    //std::cout << "UP" << std::endl;
+    player.getPos().X += (float)delta * (float)walkspeed;
 }
 
 void moveDown(){
-    std::cout << "DOWN" << std::endl;
+    //std::cout << "DOWN" << std::endl;
+    player.getPos().X -= walkspeed * (float)delta;
 }
 
 void moveLeft(){
@@ -80,9 +88,9 @@ int main(void)
 
     std::cout << 0x61 << " " << 0x67 << std::endl;
 
-    //Create Player on Position x y
-    Player player = Player(new Vector2f(22.0f, 12.0f), new Vector2f(-1.0f, 0.0f));
     
+    
+    Vector2f cPlane = Vector2f(0.0f, 0.66f);
 
     GLFWwindow* window;
 
@@ -113,7 +121,7 @@ int main(void)
     //update(data, width, height);
     for(int j = 0; j < height/pixelsize; j++){
         for(int i = 0; i < width/pixelsize; i++){
-            drawQuad(data, i*pixelsize, j*pixelsize, pixelsize, pixelsize);   
+            drawQuad(data, i * pixelsize, j * pixelsize, pixelsize, pixelsize);   
         } 
     }
 
@@ -126,6 +134,91 @@ int main(void)
         processInput(window);
 
         const clock_t begin_time = clock();
+
+        for(int x = 0; x < width; x++){
+            Vector2f camera = Vector2f();
+            camera.X = 2 * x / (double)width - 1;
+
+            Vector2f rayDir = Vector2f(
+                (player.getDir().X + cPlane.X * camera.X),
+                (player.getDir().Y + cPlane.Y * camera.X));
+            
+            int mapX = (int)player.getPos().X;
+            int mapY = (int)player.getPos().Y;
+
+            double sideDistX; 
+            double sideDistY;
+
+            double deltaDistX = std::abs(1 / rayDir.X);
+            double deltaDistY = std::abs(1 / rayDir.Y);
+
+            double perpWallDist; 
+
+            int stepX; 
+            int stepY;
+
+            int hit = 0;
+            int side;  
+
+            // Alternative code for deltaDist in case division through zero is not supported
+            // double deltaDistX = (rayDirY == 0) ? 0 : ((rayDirX == 0) ? 1 : abs(1 / rayDirX));
+            // double deltaDistY = (rayDirX == 0) ? 0 : ((rayDirY == 0) ? 1 : abs(1 / rayDirY));
+
+            if(rayDir.X < 0){
+                stepX = -1;
+                sideDistX = (player.getPos().X - mapX) * deltaDistX;
+            }else{
+                stepX = 1;
+                sideDistX = (mapX + 1.0 - player.getPos().X) * deltaDistX;
+            }
+
+            if(rayDir.Y < 0){
+                stepY = -1;
+                sideDistY = (player.getPos().Y  - mapY) * deltaDistY;
+            }else{
+                stepY = 1;
+                sideDistY = (mapY + 1.0 - player.getPos().Y) * deltaDistY;
+            }
+
+            //Hit Detection
+            while(hit == 0){
+                if(sideDistX < sideDistY){
+                    sideDistX += deltaDistX;
+                    mapX += stepX;
+                    side = 0;
+                }else{
+                    sideDistY += deltaDistY;
+                    mapY += stepY;
+                    side = 1;
+                }
+
+                if(m->getCell(mapX, mapY) != '0') {
+                    hit = 1;
+                }
+            }
+            
+            //calc distance
+            if(side == 0){
+                perpWallDist = (mapX - player.getPos().X + 1 - stepX / 2) / player.getDir().X;
+            } else{
+                perpWallDist = (mapY - player.getPos().Y + 1 - stepY / 2) / player.getDir().Y;
+            }
+
+            int lineHeight = (int) height / perpWallDist;
+
+            int drawStart = -lineHeight / 2 + height / 2;
+            if(drawStart < 0 ){
+                drawStart = 0;
+            }
+            int drawEnd = lineHeight / 2 + height / 2;
+            if(drawEnd >= height){
+                drawEnd = height - 1;
+            }
+            
+            //working on the color part
+            drawQuad(data, x, drawStart, 1, drawEnd);
+        }
+
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -139,7 +232,8 @@ int main(void)
         glfwPollEvents();
         
         std::stringstream ss; 
-        int fps = (1/(float( clock () - begin_time ) /  CLOCKS_PER_SEC));
+        delta = (float( clock () - begin_time ) /  CLOCKS_PER_SEC);
+        int fps = (1/delta);
         ss << "PixelGL \t" << fps << " fps";
         glfwSetWindowTitle(window, ss.str().c_str());
     }
