@@ -12,5 +12,7 @@ Training some OpenGL stuff for LudumDare
 - https://www.youtube.com/watch?v=TOEi6T2mtHo
 
 - https://www.youtube.com/watch?v=vYgIKn7iDH8
-What Todo:
 
+
+
+What Todo:

@@ -4,6 +4,9 @@
 #include <ctime> //for deltatime calc 
 #include <sstream>
 
+#include "World/Map.h"
+#include "Math/Math.h"
+
 void drawPixel(unsigned char* data, unsigned int i, unsigned char r, unsigned char g, unsigned char b ){
     data[i * 3 + 0] = r;
     data[i * 3 + 1] = g;
@@ -14,14 +17,6 @@ void drawPixelWithRandomColor(unsigned char* data, unsigned int i){
     data[i * 3 + 0] = (char)(rand() % 256);
     data[i * 3 + 1] = (char)(rand() % 256);
     data[i * 3 + 2] = (char)(rand() % 256);
-}
-
-
-void update(unsigned char* data, unsigned int& width, unsigned int& height){
-    unsigned int i;
-    for(i = 0; i < width * height; i++){
-        drawPixelWithRandomColor(data, i);
-    }
 }
 
 void drawQuad(unsigned char* data, unsigned int x, unsigned int y, unsigned int width, unsigned height){
@@ -36,8 +31,35 @@ void drawQuad(unsigned char* data, unsigned int x, unsigned int y, unsigned int 
     }
 }
 
-void update(int& xPos, int& yPos, const unsigned int& width, const unsigned int& height){
+void moveUp(){
+    std::cout << "UP" << std::endl;
+}
 
+void moveDown(){
+    std::cout << "DOWN" << std::endl;
+}
+
+void moveLeft(){
+    std::cout << "LEFT" << std::endl;
+}
+
+void moveRight(){
+    std::cout << "RIGHT" << std::endl;
+}
+
+
+void processInput(GLFWwindow *window)
+{
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        moveUp();
+    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        moveLeft();
+    if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        moveDown();
+    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        moveRight();
 }
 
 int main(void)
@@ -81,6 +103,8 @@ int main(void)
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+        processInput(window);
+
         const clock_t begin_time = clock();
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
