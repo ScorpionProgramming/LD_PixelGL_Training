@@ -4,6 +4,8 @@
 #include <ctime> //for deltatime calc 
 #include <sstream>
 
+#include "World/Map.h"
+
 void drawPixel(unsigned char* data, unsigned int i, unsigned char r, unsigned char g, unsigned char b ){
     data[i * 3 + 0] = r;
     data[i * 3 + 1] = g;
@@ -61,6 +63,23 @@ void processInput(GLFWwindow *window)
 
 int main(void)
 {
+    char map[] = "aaaaaabbbaabbbaabbbaaaaaa"; 
+
+    Map* m = new Map(5, 5, map);
+
+    std::cout << m->getCell(0,0) << " " << m->getCell(4,4) << " " << m->getCell(0,1) << std::endl;
+
+    for(int i = 0; i < 5 * 5; i++){
+        if(i % 5 == 0 && i != 0){
+            std::cout << std::endl;
+        }
+        std::cout << m->getCell(i % 5, i / 5) << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << 0x61 << " " << 0x67 << std::endl;
+
+
     GLFWwindow* window;
 
     unsigned int width  = 640;

@@ -16,4 +16,3 @@ Training some OpenGL stuff for LudumDare
 
 
 What Todo:
-

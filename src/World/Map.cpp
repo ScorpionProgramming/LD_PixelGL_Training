@@ -39,5 +39,5 @@ void Map::setWidth(unsigned int width){
 }
 
 char Map::getCell(unsigned int x_Pos, unsigned int y_Pos) const{
-    return m_map[x_Pos + y_Pos * this->m_width];
+    return m_map[x_Pos + (y_Pos * this->m_width)];
 }
