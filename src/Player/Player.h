@@ -10,7 +10,7 @@ private:
     Vector2f m_dir;
 public:
     Player();
-    Player(Vector2f& pos, Vector2f& dir);
+    Player(Vector2f* pos, Vector2f* dir);
 
     Vector2f getPos() const;
     Vector2f getDir() const;

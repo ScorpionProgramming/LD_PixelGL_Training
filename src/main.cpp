@@ -6,6 +6,7 @@
 
 #include "World/Map.h"
 #include "Math/Math.h"
+#include "Player/Player.h"
 
 void drawPixel(unsigned char* data, unsigned int i, unsigned char r, unsigned char g, unsigned char b ){
     data[i * 3 + 0] = r;
@@ -64,6 +65,25 @@ void processInput(GLFWwindow *window)
 
 int main(void)
 {
+    //create map
+    char map[] = "111111111111111111111111100000000000000000000001100000000000000000000001100000000000000000000001100000222220000303030001100000200020000000000001100000200020000300030001100000200020000000000001100000220220000303030001100000000000000000000001100000000000000000000001100000000000000000000001100000000000000000000001100000000000000000000001100000000000000000000001100000000000000000000001144444444000000000000001140400004000000000000001140000504000000000000001140400004000000000000001140444444000000000000001140000000000000000000001144444444000000000000001111111111111111111111111";
+    Map* m = new Map(24, 24, map);
+
+    //output map
+    for(int i = 0; i < 24 * 24; i++){
+        if(i % 24 == 0 && i != 0){
+            std::cout << std::endl;
+        }
+        std::cout << m->getCell(i % 24, i / 24) << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << 0x61 << " " << 0x67 << std::endl;
+
+    //Create Player on Position x y
+    Player player = Player(new Vector2f(22.0f, 12.0f), new Vector2f(-1.0f, 0.0f));
+    
+
     GLFWwindow* window;
 
     unsigned int width  = 640;

@@ -6,9 +6,9 @@ Player::Player()
     this->m_dir = Vector2f(0.0f, 0.0f);
 }
 
-Player::Player(Vector2f& pos, Vector2f& dir){
-    this->m_pos = pos;
-    this->m_dir = dir;
+Player::Player(Vector2f* pos, Vector2f* dir){
+    this->m_pos = *pos;
+    this->m_dir = *dir;
 }
 
 Vector2f Player::getPos() const{
