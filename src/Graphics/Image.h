@@ -47,21 +47,50 @@ typedef struct{
 private:
     /* data */
     unsigned char* pixel_data_;
-    uint width_;
-    uint height_;
+    unsigned int width_;
+    unsigned int height_;
 
 public:
     Image(std::string path);
     Image();
     void load_tga(std::string path);
     unsigned char* get_full_image();
-    Color get_pixel(uint x, uint y);
-    uint get_width() const;
-    uint get_height() const;
+    Color get_pixel(unsigned int x, unsigned int y);
+    unsigned int get_width() const;
+    unsigned int get_height() const;
 
     ~Image();
 };
 
 
+class Image{
+public:
+    Image(unsigned int width, unsigned int height);
+
+    unsigned int get_width() const;
+    unsigned int get_height() const;
+    Color get_color(unsigned int pos_x, unsigned int pos_y) const;
+    unsigned int get_image_id() const; 
+    //Sprite get_sprite(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
+    //Sprite get_sprite(unsigned int x, unsigned int y, unsigned int size);
+
+    void set_width(unsigned int width);
+    void set_height(unsigned int height);
+    void set_color(unsigned int pos_x, unsigned int pos_y, Color* color);
+    void set_image_id(unsigned int buffer_id);
+
+    char* image_to_byte_rgb()  const; /*in OpenGL GL_RGB  GL_UNSIGNED_BYTE*/
+    char* image_to_byte_rgba() const; /*in OpenGL GL_RGBA GL_UNSIGNED_BYTE*/
+    /*maybe later some greyscale*/
+
+    ~Image();
+private:
+    Color* pixels_;
+    unsigned int width_;
+    unsigned int height_;
+
+    /*used for openGL when graphics get loaded into image buffer*/
+    unsigned int id_;
+};
 
 #endif

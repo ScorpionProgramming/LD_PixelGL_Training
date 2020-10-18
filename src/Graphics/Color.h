@@ -1,29 +1,33 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-
-typedef unsigned char u_char;
-typedef unsigned int uint;
-
 class Color
 {
-private:
-    /* data */
-    u_char r;
-    u_char g;
-    u_char b;
-    u_char a;
 public:
     Color();
-    Color(u_char& r, u_char& g, u_char& b, u_char& a);
-    Color(uint r, uint g, uint b, uint a);
+    Color(unsigned char& r, unsigned char& g, unsigned char& b, unsigned char& a);
+    Color(unsigned int r, unsigned int g, unsigned int b, unsigned int a);
 
-    u_char get_r() const;
-    u_char get_g() const;
-    u_char get_b() const;
-    u_char get_a() const;
+    unsigned char get_r() const;
+    unsigned char get_g() const;
+    unsigned char get_b() const;
+    unsigned char get_a() const;
+
+    void set_r(unsigned char r);
+    void set_g(unsigned char g);
+    void set_b(unsigned char b);
+    void set_a(unsigned char a);
+
+    void operator=(const Color& color);
 
     ~Color();
+
+private:
+    /* data */
+    unsigned char r_;
+    unsigned char g_;
+    unsigned char b_;
+    unsigned char a_;
 };
 
 #endif

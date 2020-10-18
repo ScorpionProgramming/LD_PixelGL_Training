@@ -22,12 +22,6 @@ Color red       = Color(255,   0,   0, 255);
 Color green     = Color(  0, 255,   0, 255);
 Color blue      = Color(  0,   0, 255, 255);
 Color yellow    = Color(255, 255,   0, 255);
-// Image img1      = Image("Test1.ppm");
-// Image img1      = Image("CheckThisFormat.ppm");
-// Image img1      = Image("Test_ASCII.ppm");
-// Image img1      = Image("Test_raw.ppm");
-Image img         = Image();
-Image img2        = Image();
 
 
 //all the draw calls come in here
@@ -67,17 +61,7 @@ void draw(Graphics& g){
     
 }
 
-int main(void)
-{
-    //Image img = Image("CheckThisFormat.ppm");
-
-    // img.load_tga("TestImage_BOT_NoRLE.tga");
-    // load_tga("TestImage_BOT_RLE.tga");
-    img.load_tga("TestImage_TOP_NoRLE.tga");
-    // load_tga("TestImage_TOP_RLE.tga");
-    // img.load_tga("TGA_Test_new.tga");
-    img2.load_tga("Color_Combi_Alpha.tga");
-
+int main(void){
     uint            screen_width_   = 384;//1920; //320;
     uint            screen_height_  = 216;//1080;//200;
     uint            pixel_width_    = 4;
@@ -94,8 +78,7 @@ int main(void)
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow((screen_width_ * pixel_width_), (screen_height_ * pixel_height_), title_.c_str(), NULL, NULL);
-    if (!window)
-    {
+    if (!window){
         glfwTerminate();
         return -1;
     }

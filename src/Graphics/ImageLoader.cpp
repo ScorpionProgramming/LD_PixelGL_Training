@@ -1,7 +1,15 @@
-#include "Image.h"
+#include "ImageLoader.h"
 
-Image::Image(std::string path){
-    std::ifstream file(path);
+ImageLoader::ImageLoader(/* args */)
+{
+}
+
+ImageLoader::~ImageLoader()
+{
+}
+
+static void load_ppm(char* path, Image& img){
+std::ifstream file(path);
 
     std::string line;
 
@@ -81,11 +89,7 @@ Image::Image(std::string path){
     }
 }
 
-u_char* Image::get_full_image(){
-    return this->pixel_data_;
-}
-
-void Image::load_tga(std::string path){
+static void load_tga(char* path, Image& img){
     TGA_HEAD* head = new TGA_HEAD;
     size_t data_size;
 
@@ -206,104 +210,4 @@ void Image::load_tga(std::string path){
     //     std::cout << "A:" << (int)color_image[i].A ;
     //     std::cout << std::endl;
     // }
-}
-
-Color Image::get_pixel(uint x, uint y){
-    int index = (x + (y * width_));
-    u_char r = pixel_data_[index * 4 + 0];
-    u_char g = pixel_data_[index * 4 + 1];
-    u_char b = pixel_data_[index * 4 + 2];
-    u_char a = pixel_data_[index * 4 + 3];    
-
-    // std::cout << "Index: " << index << " x-> " << x << " y-> " << y << ": ";
-    // std::cout << (int)r << ", "
-    //           << (int)g << ", "
-    //           << (int)b << ", "
-    //           << std::endl;
-    return Color(r, g, b, a);
-}
-
-uint Image::get_width() const{
-    return this->width_;
-}
-uint Image::get_height() const{
-    return this->height_;
-}
-
-Image::~Image(){
-    delete pixel_data_;
-}
-
-Image::Image(){
-
-}
-
-
-
-Image::Image(unsigned int width, unsigned int height){
-    width_  = width;
-    height_ = height;
-    pixels_ = new Color[width * height];
-    
-}
-
-unsigned int Image::get_width() const{
-    return width_;
-}
-
-unsigned int Image::get_height() const{
-    return height_;
-}
-
-Color Image::get_color(unsigned int pos_x, unsigned int pos_y) const{
-    return pixels_[pos_x + pos_y * width_];
-}
-
-unsigned int Image::get_image_id() const{
-    return id_;
-} 
-
-void Image::set_width(unsigned int width){
-    width_ = width;
-}
-
-void Image::set_height(unsigned int height){
-    height_ = height;
-}
-
-void Image::set_color(unsigned int pos_x, unsigned int pos_y, Color* color){
-    pixels_[pos_x + pos_y * width_] = *color;
-
-    // pixels_[pos_x + pos_y * width_].set_r(color->get_r()); 
-    // pixels_[pos_x + pos_y * width_].set_g(color->get_g()); 
-    // pixels_[pos_x + pos_y * width_].set_b(color->get_b()); 
-    // pixels_[pos_x + pos_y * width_].set_a(color->get_a()); 
-}
-
-void Image::set_image_id(unsigned int image_id){
-    id_ = image_id;
-}
-
-char* Image::image_to_byte_rgb()  const{
-    char* byte_rgb = new char[width_ * height_ * 3];
-    for(int i = 0; i < width_ * height_; i++){
-        byte_rgb[i * 3 + 0] = pixels_[i].get_r();
-        byte_rgb[i * 3 + 1] = pixels_[i].get_g();
-        byte_rgb[i * 3 + 2] = pixels_[i].get_b();
-    }
-    return byte_rgb;
-}
-
-char* Image::image_to_byte_rgba() const {
-    char* byte_rgba = new char[width_ * height_ * 4];
-    for(int i = 0; i < width_ * height_; i++){
-        byte_rgba[i * 4 + 0] = pixels_[i].get_r();
-        byte_rgba[i * 4 + 1] = pixels_[i].get_g();
-        byte_rgba[i * 4 + 2] = pixels_[i].get_b();
-        byte_rgba[i * 4 + 3] = pixels_[i].get_a();
-    }
-} 
-
-Image::~Image(){ 
-    
 }
