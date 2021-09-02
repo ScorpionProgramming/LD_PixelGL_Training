@@ -13,6 +13,13 @@ Training some OpenGL stuff for LudumDare
 
 - https://www.youtube.com/watch?v=vYgIKn7iDH8
 
+-------------------------------------------------
+Render videos
+- https://www.youtube.com/watch?v=W6Yx3injNZs
 
+- https://www.youtube.com/watch?v=Y7SUm7Xf1sc
+
+Additional Source: 
+- https://www.youtube.com/watch?v=45MIykWJ-C4
 
 What Todo:
