@@ -16,3 +16,6 @@ Training some OpenGL stuff for LudumDare
 
 
 What Todo:
+
+- Redo the whole thing
+- use the new editor from microsoft
